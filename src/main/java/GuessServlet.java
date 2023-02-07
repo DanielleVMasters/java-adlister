@@ -5,17 +5,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name="PickColorServlet", urlPatterns = "/pickcolor")
-public class PickColorServlet extends HttpServlet {
+@WebServlet(name = "GuessServlet", urlPatterns = "/guess")
+public class GuessServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/color-picker.jsp").forward(req, resp);
+        req.getRequestDispatcher("/guessing-game.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String color = req.getParameter("color");
-        String url = "viewcolor?color=" + color;
-        resp.sendRedirect(url);
+        int userN = Integer.parseInt(req.getParameter("guess"));
+        int answer = (int) Math.floor((Math.random() * 3) + 1);
+        if (userN == answer) {
+            resp.sendRedirect("/correct");
+        }else {
+            resp.sendRedirect("/incorrect");
+        }
     }
 }
